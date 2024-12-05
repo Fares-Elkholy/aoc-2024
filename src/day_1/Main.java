@@ -12,7 +12,8 @@ public class Main {
         List<Integer> leftSide = new ArrayList<>();
         List<Integer> rightSide = new ArrayList<>();
 
-        try (BufferedReader br = new BufferedReader(new FileReader("src/input.txt"))) {
+        // parse input
+        try (BufferedReader br = new BufferedReader(new FileReader("src/day_1/input.txt"))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split("\\s+");
@@ -24,9 +25,8 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        // Print the lists to verify
 
-
+        // sort the lists
         leftSide.sort(Comparator.naturalOrder());
         rightSide.sort(Comparator.naturalOrder());
 
@@ -37,6 +37,28 @@ public class Main {
             sum += Math.abs(leftSide.get(i) - rightSide.get(i));
         }
         System.out.println("The total distance between the lists is:  " + sum);
+
+        int score = 0;
+        int index, curr, left, occurences;
+
+        // Part 2
+        for (int i = 0; i < leftSide.size(); i++) {
+            left = leftSide.get(i);
+            curr = left;
+            index = rightSide.indexOf(left);
+
+            if (index != -1) {
+                occurences = 0;
+                while (curr == left) {
+                    occurences++;
+                    index++;
+                    curr = rightSide.get(index);
+                }
+                score += occurences * left;
+            }
+        }
+
+        System.out.println("The similarity score is: " + score);
     }
 
 }
